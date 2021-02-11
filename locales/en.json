@@ -26,6 +26,7 @@
   },
   "prices": {
     "description": "What was the price of turnips this week on your island?",
+    "amount": "How many turnips did you buy?",
     "open": {
       "am": "AM - 8:00 am to 11:59 am",
       "pm": "PM - 12:00 pm to 10:00 pm"
@@ -60,12 +61,14 @@
     "title": "Output",
     "chance": "% Chance",
     "to": "to",
-    "minimum": "Guaranteed Minimum",
-    "maximum": "Potential Maximum",
+    "minimum": "Guaranteed Min.",
+    "maximum": "Potential Max.",
+    "minrevenue": "Min. $",
+    "maxrevenue": "Max. $",
     "chart": {
       "input": "Input Price",
-      "minimum": "Guaranteed Minimum",
-      "maximum": "Potential Maximum"
+      "minimum": "Guaranteed Min.",
+      "maximum": "Potential Max."
     }
   },
   "textbox": {

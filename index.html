@@ -123,7 +123,9 @@
           <div class="input__group">
             <label data-i18n="[html]prices.description" for='buy'></label>
             <input type="number" pattern="\d*" id="buy" placeholder="..." />
-
+            <br>
+            <label data-i18n="[html]prices.amount" for='buy'></label>
+            <input type="number" pattern="\d*" id="buy_amount" placeholder="..."/>
           </div>
         </div>
         <i data-i18n="prices.open.am"></i>
@@ -232,42 +234,42 @@
               <th valign="bottom" data-i18n="patterns.pattern"></th>
               <th colspan="2" valign="bottom" data-i18n="output.chance"></th>
               <th colspan="2">
-                <div data-i18n="weekdays.monday"></div>
+                <div data-i18n="weekdays.abr.monday"></div>
                 <div>
                   <span data-i18n="times.morning"></span>
                   <span data-i18n="times.afternoon"></span>
                 </div>
               </th>
               <th colspan="2">
-                <div data-i18n="weekdays.tuesday"></div>
+                <div data-i18n="weekdays.abr.tuesday"></div>
                 <div>
                   <span data-i18n="times.morning"></span>
                   <span data-i18n="times.afternoon"></span>
                 </div>
               </th>
               <th colspan="2">
-                <div data-i18n="weekdays.wednesday"></div>
+                <div data-i18n="weekdays.abr.wednesday"></div>
                 <div>
                   <span data-i18n="times.morning"></span>
                   <span data-i18n="times.afternoon"></span>
                 </div>
               </th>
               <th colspan="2">
-                <div data-i18n="weekdays.thursday"></div>
+                <div data-i18n="weekdays.abr.thursday"></div>
                 <div>
                   <span data-i18n="times.morning"></span>
                   <span data-i18n="times.afternoon"></span>
                 </div>
               </th>
               <th colspan="2">
-                <div data-i18n="weekdays.friday"></div>
+                <div data-i18n="weekdays.abr.friday"></div>
                 <div>
                   <span data-i18n="times.morning"></span>
                   <span data-i18n="times.afternoon"></span>
                 </div>
               </th>
               <th colspan="2">
-                <div data-i18n="weekdays.saturday"></div>
+                <div data-i18n="weekdays.abr.saturday"></div>
                 <div>
                   <span data-i18n="times.morning"></span>
                   <span data-i18n="times.afternoon"></span>
@@ -275,6 +277,8 @@
               </th>
               <th valign="bottom" data-i18n="output.minimum"></th>
               <th valign="bottom" data-i18n="output.maximum"></th>
+              <th valign="bottom" data-i18n="output.minrevenue" title="Minimum Revenue (note: not profit!)"></th>
+              <th valign="bottom" data-i18n="output.maxrevenue" title="Minimum Revenue (note: not profit!)"></th>
             </tr>
           </thead>
           <tbody id="output"></tbody>

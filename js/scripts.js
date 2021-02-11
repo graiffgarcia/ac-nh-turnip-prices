@@ -48,6 +48,7 @@ const state = {
 };
 
 const buy_input = $("#buy");
+const buy_amount_input = $("#buy_amount");
 const sell_inputs = getSellFields();
 const first_buy_radios = getFirstBuyRadios();
 const previous_pattern_radios = getPreviousPatternRadios();
@@ -56,12 +57,13 @@ const permalink_button = $('#permalink-btn');
 const snackbar = $('#snackbar');
 
 //Functions
-const fillFields = function (prices, first_buy, previous_pattern) {
+const fillFields = function (prices, first_buy, previous_pattern, buy_amount) {
   checkRadioByValue(first_buy_radios, first_buy);
   checkRadioByValue(previous_pattern_radios, previous_pattern);
 
   buy_input.focus();
   buy_input.val(prices[0] || '');
+  buy_amount_input[0].value = buy_amount;
   buy_input.blur();
   const sell_prices = prices.slice(2);
 
@@ -83,10 +85,11 @@ const initialize = function () {
     const first_buy = previous[0];
     const previous_pattern = previous[1];
     const prices = previous[2];
+    const buy_amount = previous[3];
     if (prices === null) {
-      fillFields([], first_buy, previous_pattern);
+      fillFields([], first_buy, previous_pattern, buy_amount);
     } else {
-      fillFields(prices, first_buy, previous_pattern);
+      fillFields(prices, first_buy, previous_pattern, buy_amount);
     }
   } catch (e) {
     console.error(e);
@@ -114,6 +117,7 @@ const updateLocalStorage = function (prices, first_buy, previous_pattern) {
     localStorage.setItem("sell_prices", JSON.stringify(prices));
     localStorage.setItem("first_buy", JSON.stringify(first_buy));
     localStorage.setItem("previous_pattern", JSON.stringify(previous_pattern));
+    localStorage.setItem("buy_amount", JSON.stringify(Number(buy_amount_input[0].value)));
   } catch (e) {
     console.error(e);
   }
@@ -153,6 +157,10 @@ const getFirstBuyStateFromLocalstorage = function () {
 
 const getPreviousPatternStateFromLocalstorage = function () {
   return JSON.parse(localStorage.getItem('previous_pattern'));
+};
+
+const getBuyAmountStateFromLocalstorage = function () {
+  return JSON.parse(localStorage.getItem('buy_amount'));
 };
 
 const getPreviousPatternStateFromQuery = function (param) {
@@ -221,6 +229,22 @@ const getPricesFromQuery = function (param) {
   }
 };
 
+const getBuyAmountFromQuery = function (param) {
+  try {
+    const params = new URLSearchParams(window.location.search.substr(1));
+    const buy_amount_str = params.get(param);
+
+    if (buy_amount_str == null) {
+      return null;
+    }
+    else{
+    return sell_prices;
+    }
+  } catch (e) {
+    return null;
+  }
+};
+
 const getPreviousFromQuery = function () {
   /* Check if valid prices are entered. Exit immediately if not. */
   const prices = getPricesFromQuery("prices");
@@ -241,7 +265,8 @@ const getPreviousFromLocalstorage = function () {
   return [
     getFirstBuyStateFromLocalstorage(),
     getPreviousPatternStateFromLocalstorage(),
-    getPricesFromLocalstorage()
+    getPricesFromLocalstorage(),
+    getBuyAmountStateFromLocalstorage()
   ];
 };
 
@@ -333,7 +358,26 @@ const calculateOutput = function (data, first_buy, previous_pattern) {
 
     var min_class = getPriceClass(style_price, poss.weekGuaranteedMinimum);
     var max_class = getPriceClass(style_price, poss.weekMax);
-    out_line += `<td class='${min_class}'>${poss.weekGuaranteedMinimum}</td><td class='${max_class}'>${poss.weekMax}</td></tr>`;
+
+    var amount_purchased = $('#buy_amount')[0].value
+    var money_spent = $('#buy')[0].value * amount_purchased
+    var minimumAmount = poss.weekGuaranteedMinimum * amount_purchased
+    var minimumProfit = Number(minimumAmount).toLocaleString('en-US')
+    var minPercent = ((poss.weekGuaranteedMinimum / $('#buy')[0].value - 1) * 100).toPrecision(3)
+    if(minPercent > 0){
+      minPercent = '+' + minPercent
+    }
+    var maxAmount = poss.weekMax * amount_purchased
+    var maxProfit = Number(maxAmount).toLocaleString('en-US')
+    var maxPercent = ((poss.weekMax / $('#buy')[0].value - 1) * 100).toPrecision(3)
+    if (maxPercent > 0) {
+      maxPercent = '+' + maxPercent
+    }
+
+    var formattedGuaranteedMinimum = poss.weekGuaranteedMinimum + ' (' + minPercent + '%)'
+    var formattedweekMax = poss.weekMax + ' (' + maxPercent + '%)'
+    out_line += `<td class='${min_class}'>${formattedGuaranteedMinimum}</td><td class='${max_class}'>${formattedweekMax}</td><td class='${min_class}'>${minimumProfit}</td><td class='${max_class}'>${maxProfit}</td></tr>`;
+    
     output_possibilities += out_line;
   }
 

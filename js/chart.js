@@ -1,6 +1,6 @@
 let chart_instance = null;
 
-Chart.defaults.global.defaultFontFamily = "'Varela Round', sans-serif";
+Chart.defaults.global.defaultFontFamily = "'National 2', sans-serif";
 
 const chart_options = {
   elements: {
